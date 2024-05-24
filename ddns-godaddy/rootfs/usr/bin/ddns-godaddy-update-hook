@@ -1,0 +1,36 @@
+#!/command/with-contenv bash
+# ==============================================================================
+# Home Assistant Add-on: GoDaddy Dynamic DNS Updater
+# Runs the GoDaddy Dynamic DNS Updater service
+# ==============================================================================
+
+# Derived in part from:
+# https://github.com/lukas2511/dehydrated/blob/master/docs/examples/hook.sh
+
+# Updated from mrmichaelrb:
+# https://github.com/mrmichaelrb/hassio-addons/blob/main/godaddy_dns/rootfs/usr/bin/hooks.sh
+
+deploy_challenge() {
+    local TOKEN_VALUE="${3}"
+    local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
+    /usr/bin/ddns-godaddy-update set "${HOSTNAME}" TXT "${TOKEN_VALUE}"
+    sleep "${LE_DNS_DELAY}"
+}
+
+clean_challenge() {
+    local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
+    /usr/bin/ddns-godaddy-update remove "${HOSTNAME}" TXT
+}
+
+deploy_cert() {
+    local KEYFILE="${2}"
+    local FULLCHAINFILE="${4}"
+    cp -f "${FULLCHAINFILE}" "/ssl/${LE_CERTFILE}"
+    cp -f "${KEYFILE}" "/ssl/${LE_KEYFILE}"
+}
+
+HANDLER="${1}"; shift
+if [[ "${HANDLER}" =~ ^(deploy_challenge|clean_challenge|deploy_cert)$ ]]
+then
+    "${HANDLER}" "${@}"
+fi
