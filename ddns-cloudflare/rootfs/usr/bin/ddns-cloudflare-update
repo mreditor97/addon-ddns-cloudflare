@@ -14,39 +14,39 @@ DATA_VALUE="${4}"
 
 EXIT_CODE=0
 
-ZONE_ID="$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${HOSTNAME}&status=active" \
+ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${HOSTNAME}&status=active" \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -H 'X-Auth-Email: "'${CLOUDFLARE_EMAIL}'"' \
     -H 'Authorization: Bearer "'${CLOUDFLARE_SECRET}'"' \
-    | jq -r '{"result"}[] | .[0] | .id')"
+    | jq -r '{"result"}[] | .[0] | .id')
 
 echo "Cloudflare DNS Zone ID has been fetched: ${ZONE_ID}"
 
-DNS_RECORD_ID="$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=${RECORD_TYPE}&name=${DATA_VALUE}" \
+DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=${RECORD_TYPE}&name=${DATA_VALUE}" \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -H 'X-Auth-Email: "'${CLOUDFLARE_EMAIL}'"' \
     -H 'Authorization: Bearer "'${CLOUDFLARE_SECRET}'"' \
-    | jq -r '{"result"}[] | .[0] | .id')"
+    | jq -r '{"result"}[] | .[0] | .id')
 
 echo "Cloudflare DNS Record ID for ${HOSTNAME} has been fetched: ${DNS_RECORD_ID}"
 
 if [ "${ACTION}" = 'remove' ]
 then
-    ANSWER="$(curl -s -X DELETE "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
+    ANSWER=$(curl -s -X DELETE "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
         -H 'Accept: application/json' \
         -H 'Content-Type: application/json' \
         -H 'X-Auth-Email: "'${CLOUDFLARE_EMAIL}'"' \
         -H 'Authorization: Bearer "'${CLOUDFLARE_SECRET}'"' \
         || EXIT_CODE=${?}
 else
-    ANSWER="$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
+    ANSWER=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
         -H 'Accept: application/json' \
         -H 'Content-Type: application/json' \
         -H 'X-Auth-Email: "'${CLOUDFLARE_EMAIL}'"' \
         -H 'Authorization: Bearer "'${CLOUDFLARE_SECRET}'"' \
-        -d '{"type":"'${RECORD_TYPE}'","name":"'${DNS_RECORD}'","content":"'${DATA_VALUE}'","ttl":'"${CLOUDFLARE_TTL}"', "proxied": "'${CLOUDFLARE_PROXIED}'"}')" \
+        -d '{"type":"'${RECORD_TYPE}'","name":"'${DNS_RECORD}'","content":"'${DATA_VALUE}'","ttl":'"${CLOUDFLARE_TTL}"', "proxied": "'${CLOUDFLARE_PROXIED}'"}') \
         || EXIT_CODE=${?}
 fi
 
