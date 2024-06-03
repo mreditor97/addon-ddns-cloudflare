@@ -21,5 +21,4 @@ jobs:
       repository_beta: 'homeassistant-addons-beta'
       repository_edge: 'homeassistant-addons-edge'
     secrets:
-      CAS_API_KEY: ${{ secrets.CAS_API_KEY }}
       DISPATCH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
