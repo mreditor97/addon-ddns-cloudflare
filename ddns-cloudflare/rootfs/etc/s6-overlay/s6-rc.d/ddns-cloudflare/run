@@ -1,7 +1,7 @@
 #!/command/with-contenv bashio
 # ==============================================================================
-# Home Assistant Add-on: GoDaddy Dynamic DNS Updater
-# Runs the GoDaddy Dynamic DNS Updater service
+# Home Assistant Add-on: Cloudflare Dynamic DNS Updater
+# Runs the Cloudflare Dynamic DNS Updater service
 # ==============================================================================
 
 # Derived in part from:
@@ -10,25 +10,27 @@
 # Updated from mrmichaelrb:
 # https://github.com/mrmichaelrb/hassio-addons
 
-bashio::log.info "Starting the GoDaddy Dynamic DNS Updater..."
+bashio::log.info "Starting the Cloudflare Dynamic DNS Updater..."
 
 CERT_DIR=/data/letsencrypt
 WORK_DIR=/data/workdir
 
-# GoDaddy
-GODADDY_KEY="$(bashio::config 'key')"
-GODADDY_SECRET="$(bashio::config 'secret')"
-GODADDY_DOMAIN="$(bashio::config 'domain')"
-GODADDY_HOSTNAME="$(bashio::config 'hostname')"
-GODADDY_TTL="$(bashio::config 'ttl')"
+# Cloudflare
+CLOUDFLARE_EMAIL="$(bashio::config 'email')"
+CLOUDFLARE_SECRET="$(bashio::config 'secret')"
+CLOUDFLARE_DOMAIN="$(bashio::config 'domain')"
+CLOUDFLARE_HOSTNAME="$(bashio::config 'hostname')"
+CLOUDFLARE_TTL="$(bashio::config 'ttl')"
+CLOUDFLARE_PROXIED="$(bashio::config 'proxied')"
 
-printf "${GODADDY_KEY}" > /var/run/s6/container_environment/GODADDY_KEY
-printf "${GODADDY_SECRET}" > /var/run/s6/container_environment/GODADDY_SECRET
-printf "${GODADDY_DOMAIN}" > /var/run/s6/container_environment/GODADDY_DOMAIN
-printf "${GODADDY_HOSTNAME}" > /var/run/s6/container_environment/GODADDY_HOSTNAME
-printf "${GODADDY_TTL}" > /var/run/s6/container_environment/GODADDY_TTL
+printf "${CLOUDFLARE_EMAIL}" > /var/run/s6/container_environment/CLOUDFLARE_EMAIL
+printf "${CLOUDFLARE_SECRET}" > /var/run/s6/container_environment/CLOUDFLARE_SECRET
+printf "${CLOUDFLARE_DOMAIN}" > /var/run/s6/container_environment/CLOUDFLARE_DOMAIN
+printf "${CLOUDFLARE_HOSTNAME}" > /var/run/s6/container_environment/CLOUDFLARE_HOSTNAME
+printf "${CLOUDFLARE_TTL}" > /var/run/s6/container_environment/CLOUDFLARE_TTL
+printf "${CLOUDFLARE_PROXIED}" > /var/run/s6/container_environment/CLOUDFLARE_PROXIED
 
-FQDN="${GODADDY_HOSTNAME}.${GODADDY_DOMAIN}"
+FQDN="${CLOUDFLARE_HOSTNAME}.${CLOUDFLARE_DOMAIN}"
 
 # Let's Encrypt
 LE_ACCEPT_TERMS="$(bashio::config 'lets_encrypt.accept_terms')"
@@ -63,7 +65,7 @@ function le_renew() {
     bashio::log.info "Renewing certificate for domain: ${FQDN}"
 
     EXIT_CODE=0
-    dehydrated --cron --hook /usr/bin/ddns-godaddy-update-hook --challenge dns-01 --domain "${FQDN}" \
+    dehydrated --cron --hook /usr/bin/ddns-cloudflare-update-hook --challenge dns-01 --domain "${FQDN}" \
         --out "${CERT_DIR}" --config "${WORK_DIR}/config" \
         --force \
         || EXIT_CODE=${?}
@@ -83,7 +85,7 @@ function le_renew() {
 if [ "${LE_ACCEPT_TERMS}" = 'false' ]
 then
     bashio::log.warning "Let's Encrypt Terms and Conditions have not been accepted. Not enabling Let's Encrypt."
-    bashio::log.warning "Now using GoDaddy Dynamic DNS updating without Let's Encrypt."
+    bashio::log.warning "Now using Cloudflare Dynamic DNS updating without Let's Encrypt."
 fi
 
 # Register/generate certificate if terms accepted

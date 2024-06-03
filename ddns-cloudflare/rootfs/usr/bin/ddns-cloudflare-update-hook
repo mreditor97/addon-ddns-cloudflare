@@ -1,7 +1,7 @@
 #!/command/with-contenv bash
 # ==============================================================================
-# Home Assistant Add-on: GoDaddy Dynamic DNS Updater
-# Runs the GoDaddy Dynamic DNS Updater service
+# Home Assistant Add-on: Cloudflare Dynamic DNS Updater
+# Runs the Cloudflare Dynamic DNS Updater service
 # ==============================================================================
 
 # Derived in part from:
@@ -13,13 +13,13 @@
 deploy_challenge() {
     local TOKEN_VALUE="${3}"
     local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
-    /usr/bin/ddns-godaddy-update set "${HOSTNAME}" TXT "${TOKEN_VALUE}"
+    /usr/bin/ddns-cloudflare-update set "${HOSTNAME}" TXT "${TOKEN_VALUE}"
     sleep "${LE_DNS_DELAY}"
 }
 
 clean_challenge() {
     local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
-    /usr/bin/ddns-godaddy-update remove "${HOSTNAME}" TXT
+    /usr/bin/ddns-cloudflare-update remove "${HOSTNAME}" TXT
 }
 
 deploy_cert() {

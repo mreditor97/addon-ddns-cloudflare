@@ -1,4 +1,4 @@
-# Home Assistant Add-on: GoDaddy Dynamic DNS Updater
+# Home Assistant Add-on: Cloudflare Dynamic DNS Updater
 
 ## Installation
 

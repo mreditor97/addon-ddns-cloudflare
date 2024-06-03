@@ -1,15 +1,15 @@
 #!/command/with-contenv bashio
 # ==============================================================================
-# Home Assistant Add-on: GoDaddy Dynamic DNS Updater
-# Take down the S6 supervision tree when GoDaddy Dynamic DNS Updater fails
+# Home Assistant Add-on: Cloudflare Dynamic DNS Updater
+# Take down the S6 supervision tree when Cloudflare Dynamic DNS Updater fails
 # ==============================================================================
 
 declare APP_EXIT_CODE=${1}
 
 if [[ "${APP_EXIT_CODE}" -ne 0 ]] && [[ "${APP_EXIT_CODE}" -ne 256 ]]; then
-    bashio::log.warning "Halt GoDaddy Dynamic DNS Updater with exit code ${APP_EXIT_CODE}"
+    bashio::log.warning "Halt Cloudflare Dynamic DNS Updater with exit code ${APP_EXIT_CODE}"
     echo "${APP_EXIT_CODE}" > /run/s6-linux-init-container-results/exitcode
     exec /run/s6/basedir/bin/halt
 fi
 
-bashio::log.info "GoDaddy Dynamic DNS Updater exiting"
+bashio::log.info "Cloudflare Dynamic DNS Updater exiting"

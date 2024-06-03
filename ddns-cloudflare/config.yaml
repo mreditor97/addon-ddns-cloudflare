@@ -1,9 +1,9 @@
 ---
-name: GoDaddy Dynamic DNS Updater
-description: GoDaddy Dynamic DNS updating service with Let's Encrypt support
+name: Cloudflare Dynamic DNS Updater
+description: Cloudflare Dynamic DNS updating service with Let's Encrypt support
 version: dev
-slug: ddns-godaddy
-url: https://github.com/mreditor97/addon-ddns-godaddy
+slug: ddns-cloudflare
+url: https://github.com/mreditor97/addon-ddns-cloudflare
 startup: services
 arch:
   - aarch64
@@ -15,11 +15,12 @@ init: false
 map:
   - ssl:rw
 options:
-  domain: my-godaddy-domain.com
+  domain: my-cloudflare-domain.com
   hostname: my-hostname
-  key: GoDaddy API Key
-  secret: GoDaddy API Secret
+  email: Cloudflare Email
+  secret: Cloudflare API Key
   ttl: 600
+  proxied: false
   scan_interval: 300
   lets_encrypt:
     accept_terms: false
@@ -30,9 +31,10 @@ options:
 schema:
   domain: str
   hostname: str
-  key: str
+  email: str
   secret: str
   ttl: int
+  proxied: bool
   scan_interval: int
   lets_encrypt:
     accept_terms: bool
