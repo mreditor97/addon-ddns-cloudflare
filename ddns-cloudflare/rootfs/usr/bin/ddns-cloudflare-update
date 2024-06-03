@@ -18,8 +18,8 @@ ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${HOST
     -H "Accept: application/json" \
     -H "Content-Type: application/json" \
     -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
-    -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-    | jq -r '{"result"}[] | .[0] | .id')
+    -H "Authorization: Bearer ${CLOUDFLARE_SECRET}") \
+    | jq -r '{"result"}[] | .[0] | .id'
 
 echo "Cloudflare DNS Zone ID has been fetched: ${ZONE_ID}"
 
@@ -27,8 +27,8 @@ DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZON
     -H "Accept: application/json" \
     -H "Content-Type: application/json" \
     -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
-    -H "Authorization: Bearer ${CLOUDFLARE_SECRET}"
-    | jq -r '{"result"}[] | .[0] | .id')
+    -H "Authorization: Bearer ${CLOUDFLARE_SECRET}") \
+    | jq -r '{"result"}[] | .[0] | .id'
 
 echo "Cloudflare DNS Record ID for ${HOSTNAME} has been fetched: ${DNS_RECORD_ID}" \
 
