@@ -38,7 +38,7 @@ then
         -H"'Accept: application/json" \
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
-        -H "Authorization: Bearer ${CLOUDFLARE_SECRET}")
+        -H "Authorization: Bearer ${CLOUDFLARE_SECRET}") \
         || EXIT_CODE=${?}
 else
     ANSWER=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
