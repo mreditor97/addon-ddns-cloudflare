@@ -12,13 +12,13 @@
 
 deploy_challenge() {
     local TOKEN_VALUE="${3}"
-    local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
+    local HOSTNAME="_acme-challenge.${CLOUDFLARE_HOSTNAME}"
     /usr/bin/ddns-cloudflare-update set "${HOSTNAME}" TXT "${TOKEN_VALUE}"
     sleep "${LE_DNS_DELAY}"
 }
 
 clean_challenge() {
-    local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
+    local HOSTNAME="_acme-challenge.${CLOUDFLARE_HOSTNAME}"
     /usr/bin/ddns-cloudflare-update remove "${HOSTNAME}" TXT
 }
 
