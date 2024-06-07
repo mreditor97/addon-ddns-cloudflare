@@ -60,7 +60,7 @@ else
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
         -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-        -d "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${FQDN}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED}}") \
+        -d "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED}}") \
         || EXIT_CODE=${?}
 fi
 
