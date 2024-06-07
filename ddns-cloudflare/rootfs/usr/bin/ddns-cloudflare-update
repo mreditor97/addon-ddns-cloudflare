@@ -34,7 +34,7 @@ DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZON
     -H "Content-Type: application/json" \
     -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
     -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-    | jq -r '{"result"}[] | .[0] | .id')
+    | jq -r '{"result"}[] | select(.name=="'${FQDN}'") | .id')
 
 echo "Cloudflare DNS Record ID for ${FQDN} has been fetched: ${DNS_RECORD_ID}"
 
@@ -60,7 +60,7 @@ else
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
         -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-        -d "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED}}") \
+        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED}}") \
         || EXIT_CODE=${?}
 fi
 
