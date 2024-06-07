@@ -70,7 +70,7 @@ else
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
         -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED},\"comment\":\"${HOSTNAME}, updated by DDNS\"}") \
+        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED},\"comment\":\"${HOSTNAME}, updated by DDNS at $(date +%F_%T)\"}") \
         || EXIT_CODE=${?}
 fi
 
