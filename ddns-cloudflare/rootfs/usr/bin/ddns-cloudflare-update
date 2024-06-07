@@ -53,7 +53,7 @@ then
         -H "Authorization: Bearer ${CLOUDFLARE_SECRET}") \
         || EXIT_CODE=${?}
 else
-    echo "Attempting to update Cloudflare DNS with IP address: ${DATA_VALUE}"
+    echo "Attempting to update Cloudflare DNS with IP address: ${DATA_VALUE}, in zone: ${ZONE_ID}, record: ${DNS_RECORD_ID}"
 
     ANSWER=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
         -H "Accept: application/json" \
