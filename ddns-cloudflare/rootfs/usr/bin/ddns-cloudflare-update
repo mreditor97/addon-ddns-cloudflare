@@ -34,7 +34,7 @@ DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZON
     -H "Content-Type: application/json" \
     -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
     -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-    | jq -r '.result[] | select(.name == "'${FQDN}'" | select(.type == "'${RECORD_TYPE}'")) | .id')
+    | jq -r '.result[] | select(.name == "'${FQDN}'") | select(.type == "'${RECORD_TYPE}'") | .id')
 
 echo "Cloudflare DNS Record ID for ${FQDN} has been fetched: ${DNS_RECORD_ID}"
 
