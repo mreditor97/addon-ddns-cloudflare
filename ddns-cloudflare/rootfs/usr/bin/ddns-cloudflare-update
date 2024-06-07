@@ -38,7 +38,8 @@ DNS_RECORD_ANSWER=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$
 DNS_RECORD_ID=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .id')
 DNS_RECORD_CONTENT=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .content')
 
-echo "Cloudflare DNS Record for ${FQDN} has been fetched"
+echo ${DNS_RECORD_ANSWER}
+echo "Cloudflare DNS Record ID for ${FQDN} has been fetched: ${DNS_RECORD_ID}"
 
 if [ "${DNS_RECORD_ID}" = 'null' ]
 then
