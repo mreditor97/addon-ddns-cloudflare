@@ -29,7 +29,7 @@ then
     exit 1
 fi
 
-DNS_RECORD_ANSWER=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=${RECORD_TYPE}&name=${FQDN}" \
+DNS_RECORD_ANSWER=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=${RECORD_TYPE}&name=${HOSTNAME}.${CLOUDFLARE_DOMAIN}" \
     -H "Accept: application/json" \
     -H "Content-Type: application/json" \
     -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
@@ -39,7 +39,7 @@ DNS_RECORD_ID=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .id')
 DNS_RECORD_CONTENT=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .content')
 
 echo ${DNS_RECORD_ANSWER}
-echo "Cloudflare DNS Record ID for ${FQDN} has been fetched: ${DNS_RECORD_ID}"
+echo "Cloudflare DNS Record ID for ${HOSTNAME}.${CLOUDFLARE_DOMAIN} has been fetched: ${DNS_RECORD_ID}"
 
 if [ "${DNS_RECORD_ID}" = 'null' ]
 then
@@ -59,7 +59,7 @@ else
 
     echo "Attempting to update Cloudflare DNS with IP address: ${DATA_VALUE}, in zone: ${ZONE_ID}, record: ${DNS_RECORD_ID}, current IP: ${DNS_RECORD_CONTENT}"
 
-    if [ "${DNS_RECORD_CONTENT}" = "${IPV4}"] | [ "${DNS_RECORD_CONTENT}" = "${IPV6}" ]
+    if [[ "${DNS_RECORD_CONTENT}" = "${IPV4}" || "${DNS_RECORD_CONTENT}" = "${IPV6}" ]]
     then
         echo "Cloudflare DNS already has a matching IP address for ${FQDN}"
         exit 0
