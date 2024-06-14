@@ -52,7 +52,8 @@ then
         -H "Accept: application/json" \
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
-        -H "Authorization: Bearer ${CLOUDFLARE_SECRET}") \
+        -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
+        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${FQDN}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":false,\"comment\":\"${CLOUDFLARE_COMMENT}\"}") \
         || EXIT_CODE=${?}
 
 elif [ "${ACTION}" = 'update' ]
