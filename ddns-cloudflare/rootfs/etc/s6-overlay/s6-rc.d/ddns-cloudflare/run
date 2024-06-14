@@ -73,6 +73,7 @@ function le_renew() {
         --out "${CERT_DIR}" --config "${WORK_DIR}/config" \
         --force \
         --ca "letsencrypt-test" \
+        --accept-terms \
         || EXIT_CODE=${?}
 
     if [ $EXIT_CODE -eq 0 ]
