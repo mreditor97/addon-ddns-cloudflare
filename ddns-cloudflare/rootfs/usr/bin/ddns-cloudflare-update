@@ -59,7 +59,7 @@ else
 
     echo "Attempting to update Cloudflare DNS with IP address: ${DATA_VALUE}, in zone: ${ZONE_ID}, record: ${DNS_RECORD_ID}, current IP: ${DNS_RECORD_CONTENT}"
 
-    if [[ ${DNS_RECORD_CONTENT} -eq ${IPV4} ]] || [[ ${DNS_RECORD_CONTENT} -eq ${IPV6} ]]
+    if [ "${DNS_RECORD_CONTENT}" = "${IPV4}" ] || [ "${DNS_RECORD_CONTENT}" = "${IPV6}" ]
     then
         echo "Cloudflare DNS already has a matching IP address for ${FQDN}"
         exit 0
