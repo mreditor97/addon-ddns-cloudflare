@@ -72,6 +72,7 @@ function le_renew() {
     dehydrated --cron --hook /usr/bin/ddns-cloudflare-update-hook --challenge dns-01 --domain "${FQDN}" \
         --out "${CERT_DIR}" --config "${WORK_DIR}/config" \
         --force \
+        --ca "https://acme-staging-v02.api.letsencrypt.org/directory" \
         || EXIT_CODE=${?}
 
     if [ $EXIT_CODE -eq 0 ]
