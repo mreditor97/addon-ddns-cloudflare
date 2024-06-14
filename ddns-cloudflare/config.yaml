@@ -19,6 +19,7 @@ options:
   hostname: my-hostname
   email: Cloudflare Email
   secret: Cloudflare API Key
+  comment: Updated by HA Addon Cloudflare DDNS
   ttl: 1
   proxied: false
   scan_interval: 300
@@ -33,7 +34,7 @@ schema:
   hostname: str
   email: str
   secret: str
-  comment: str?
+  comment: str
   ttl: int
   proxied: bool
   scan_interval: int
