@@ -29,25 +29,19 @@ then
     exit 1
 fi
 
-DNS_RECORD_ANSWER=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=${RECORD_TYPE}&name=${FQDN}" \
-    -H "Accept: application/json" \
-    -H "Content-Type: application/json" \
-    -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
-    -H "Authorization: Bearer ${CLOUDFLARE_SECRET}")
-
-DNS_RECORD_ID=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .id')
-DNS_RECORD_CONTENT=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .content')
-
 echo "${DNS_RECORD_ANSWER}"
 echo "Cloudflare DNS Record ID for ${FQDN} has been fetched: ${DNS_RECORD_ID}"
 echo "${ACTION}"
+echo "${HOSTNAME}"
+echo "${RECORD_TYPE}"
+echo "${DATA_VALUE}"
 
 
-if [ "${DNS_RECORD_ID}" = 'null' ]
-then
-    echo "Failed to aquire Cloudflare DNS Record ID"
-    exit 1
-fi
+#if [ "${DNS_RECORD_ID}" = 'null' ]
+#then
+#    echo "Failed to aquire Cloudflare DNS Record ID"
+#    exit 1
+#fi
 
 if [ "${ACTION}" = 'remove' ]
 then
@@ -58,6 +52,15 @@ then
         -H "Authorization: Bearer ${CLOUDFLARE_SECRET}") \
         || EXIT_CODE=${?}
 else
+
+    DNS_RECORD_ANSWER=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=${RECORD_TYPE}&name=${FQDN}" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
+    -H "Authorization: Bearer ${CLOUDFLARE_SECRET}")
+
+    DNS_RECORD_ID=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .id')
+    DNS_RECORD_CONTENT=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .content')
 
     echo "Attempting to update Cloudflare DNS with IP address: ${FQDN}, with the current IP: ${DNS_RECORD_CONTENT}"
 
