@@ -20,6 +20,7 @@ CLOUDFLARE_EMAIL="$(bashio::config 'email')"
 CLOUDFLARE_SECRET="$(bashio::config 'secret')"
 CLOUDFLARE_DOMAIN="$(bashio::config 'domain')"
 CLOUDFLARE_HOSTNAME="$(bashio::config 'hostname')"
+CLOUDFLARE_COMMENT="$(bashio::config 'comment')"
 CLOUDFLARE_TTL="$(bashio::config 'ttl')"
 CLOUDFLARE_PROXIED="$(bashio::config 'proxied')"
 
@@ -27,6 +28,7 @@ printf "${CLOUDFLARE_EMAIL}" > /var/run/s6/container_environment/CLOUDFLARE_EMAI
 printf "${CLOUDFLARE_SECRET}" > /var/run/s6/container_environment/CLOUDFLARE_SECRET
 printf "${CLOUDFLARE_DOMAIN}" > /var/run/s6/container_environment/CLOUDFLARE_DOMAIN
 printf "${CLOUDFLARE_HOSTNAME}" > /var/run/s6/container_environment/CLOUDFLARE_HOSTNAME
+printf "${CLOUDFLARE_COMMENT}" > /var/run/s6/container_environment/CLOUDFLARE_COMMENT
 printf "${CLOUDFLARE_TTL}" > /var/run/s6/container_environment/CLOUDFLARE_TTL
 printf "${CLOUDFLARE_PROXIED}" > /var/run/s6/container_environment/CLOUDFLARE_PROXIED
 
