@@ -38,7 +38,10 @@ DNS_RECORD_ANSWER=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$
 DNS_RECORD_ID=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .id')
 DNS_RECORD_CONTENT=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .content')
 
+echo "${DNS_RECORD_ANSWER}"
 echo "Cloudflare DNS Record ID for ${FQDN} has been fetched: ${DNS_RECORD_ID}"
+echo "${ACTION}"
+
 
 if [ "${DNS_RECORD_ID}" = 'null' ]
 then
@@ -63,7 +66,7 @@ else
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
         -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED},\"comment\":\"${CLOUDFLARE_COMMENT}\"}") \
+        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${FQDN}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED},\"comment\":\"${CLOUDFLARE_COMMENT}\"}") \
         || EXIT_CODE=${?}
 fi
 
