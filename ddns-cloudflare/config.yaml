@@ -19,7 +19,7 @@ options:
   hostname: my-hostname
   email: Cloudflare Email
   secret: Cloudflare API Key
-  ttl: 600
+  ttl: 1
   proxied: false
   scan_interval: 300
   lets_encrypt:
