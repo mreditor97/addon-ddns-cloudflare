@@ -29,6 +29,9 @@ configuration:
   hostname:
     name: Hostname
     description: Hostname used for accessing Home Assistant instance
+  comment:
+    name: Comment
+    description: Cloudflare DNS Comment (used only for information)
   ttl:
     name: TTL
     description: DNS TTL (1 = Automatic)

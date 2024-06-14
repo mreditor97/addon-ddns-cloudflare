@@ -33,6 +33,7 @@ schema:
   hostname: str
   email: str
   secret: str
+  comment: str?
   ttl: int
   proxied: bool
   scan_interval: int

@@ -38,7 +38,6 @@ DNS_RECORD_ANSWER=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$
 DNS_RECORD_ID=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .id')
 DNS_RECORD_CONTENT=$(echo ${DNS_RECORD_ANSWER} | jq -r '{"result"}[] | .[0] | .content')
 
-echo ${DNS_RECORD_ANSWER}
 echo "Cloudflare DNS Record ID for ${FQDN} has been fetched: ${DNS_RECORD_ID}"
 
 if [ "${DNS_RECORD_ID}" = 'null' ]
@@ -57,12 +56,6 @@ then
         || EXIT_CODE=${?}
 else
 
-    if [ "${DNS_RECORD_CONTENT}" == "${IPV4}" ] || [ "${DNS_RECORD_CONTENT}" == "${IPV6}" ]
-    then
-        echo "Cloudflare DNS already has a matching IP address for ${FQDN}"
-        exit 0
-    fi
-
     echo "Attempting to update Cloudflare DNS with IP address: ${FQDN}, with the current IP: ${DNS_RECORD_CONTENT}"
 
     ANSWER=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
@@ -70,7 +63,7 @@ else
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
         -H "Authorization: Bearer ${CLOUDFLARE_SECRET}" \
-        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED},\"comment\":\"${HOSTNAME}, updated by DDNS at $(date +%F_%T)\"}") \
+        --data "{\"type\":\"${RECORD_TYPE}\",\"name\":\"${HOSTNAME}\",\"content\":\"${DATA_VALUE}\",\"ttl\":${CLOUDFLARE_TTL},\"proxied\":${CLOUDFLARE_PROXIED},\"comment\":\"${CLOUDFLARE_COMMENT}\"}") \
         || EXIT_CODE=${?}
 fi
 
