@@ -31,7 +31,7 @@ configuration:
     description: Hostname used for accessing Home Assistant instance
   ttl:
     name: TTL
-    description: DNS TTL
+    description: DNS TTL (1 = Automatic)
   proxied:
     name: Proxied
     description: Using the Cloudflare Proxy
