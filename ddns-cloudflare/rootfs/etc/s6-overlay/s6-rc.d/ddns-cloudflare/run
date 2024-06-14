@@ -32,6 +32,7 @@ printf "${CLOUDFLARE_COMMENT}" > /var/run/s6/container_environment/CLOUDFLARE_CO
 printf "${CLOUDFLARE_TTL}" > /var/run/s6/container_environment/CLOUDFLARE_TTL
 printf "${CLOUDFLARE_PROXIED}" > /var/run/s6/container_environment/CLOUDFLARE_PROXIED
 
+# Fully Qualified Domain Name
 FQDN="${CLOUDFLARE_HOSTNAME}.${CLOUDFLARE_DOMAIN}"
 
 printf "${FQDN}" > /var/run/s6/container_environment/FQDN
