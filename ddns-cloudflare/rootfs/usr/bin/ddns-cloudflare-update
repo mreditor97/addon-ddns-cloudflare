@@ -48,7 +48,7 @@ echo "${DATA_VALUE}"
 if [ "${ACTION}" = 'create' ]
 then
 
-    ANSWER=$(curl -s -X POST "ttps://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
+    ANSWER=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
         -H "Accept: application/json" \
         -H "Content-Type: application/json" \
         -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
