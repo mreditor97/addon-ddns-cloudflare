@@ -136,12 +136,12 @@ do
     if [[ "${IPV4}" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]] && [ "${IPV4}" != "${LAST_IPV4}" ]
     then
         EXIT_CODE=0
-        /usr/bin/ddns-cloudflare-update set "${CLOUDFLARE_HOSTNAME}" A "${IPV4}" || EXIT_CODE=${?}
+        /usr/bin/ddns-cloudflare-update update "${CLOUDFLARE_HOSTNAME}" A "${IPV4}" || EXIT_CODE=${?}
 
         if [ $EXIT_CODE -eq 0 ]
         then
             LAST_IPV4="${IPV4}"
-            bashio::log.info "IPv4 record set to ${IPV4} for domain: ${FQDN}"
+            bashio::log.info "IPv4 record updated to ${IPV4} for domain: ${FQDN}"
         else
             bashio::log.warning "IPv4 record registration failed for domain: ${FQDN}"
         fi
@@ -150,12 +150,12 @@ do
     if [[ "${IPV6}" =~ ^([0-9a-fA-F]{0,4}:){1,7}[0-9a-fA-F]{0,4}$ ]] && [ "${IPV6}" != "${LAST_IPV6}" ]
     then
         EXIT_CODE=0
-        /usr/bin/ddns-cloudflare-update set "${CLOUDFLARE_HOSTNAME}" AAAA "${IPV6}" || EXIT_CODE=${?}
+        /usr/bin/ddns-cloudflare-update update "${CLOUDFLARE_HOSTNAME}" AAAA "${IPV6}" || EXIT_CODE=${?}
 
         if [ $EXIT_CODE -eq 0 ]
         then
             LAST_IPV6="${IPV6}"
-            bashio::log.info "IPv6 record set to ${IPV6} for domain: ${FQDN}"
+            bashio::log.info "IPv6 record updated to ${IPV6} for domain: ${FQDN}"
         else
             bashio::log.warning "IPv6 record registration failed for domain: ${FQDN}"
         fi

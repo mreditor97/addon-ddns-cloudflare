@@ -13,7 +13,7 @@
 deploy_challenge() {
     local TOKEN_VALUE="${3}"
     local HOSTNAME="_acme-challenge.${CLOUDFLARE_HOSTNAME}"
-    /usr/bin/ddns-cloudflare-update set "${HOSTNAME}" TXT "${TOKEN_VALUE}"
+    /usr/bin/ddns-cloudflare-update create "${HOSTNAME}" TXT "${TOKEN_VALUE}"
     sleep "${LE_DNS_DELAY}"
 }
 
