@@ -57,13 +57,13 @@ then
         || EXIT_CODE=${?}
 else
 
-    echo "Attempting to update Cloudflare DNS with IP address: ${DATA_VALUE}, in zone: ${ZONE_ID}, record: ${DNS_RECORD_ID}, current IP: ${DNS_RECORD_CONTENT}"
-
-    if [[ "${DNS_RECORD_CONTENT}" == "${IPV4}" ]] || [[ "${DNS_RECORD_CONTENT}" == "${IPV6}" ]]
+    if [ "${DNS_RECORD_CONTENT}" == "${IPV4}" ] || [ "${DNS_RECORD_CONTENT}" == "${IPV6}" ]
     then
         echo "Cloudflare DNS already has a matching IP address for ${FQDN}"
         exit 0
     fi
+
+    echo "Attempting to update Cloudflare DNS with IP address: ${FQDN}, with the current IP: ${DNS_RECORD_CONTENT}"
 
     ANSWER=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${DNS_RECORD_ID}" \
         -H "Accept: application/json" \
