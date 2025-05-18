@@ -7,7 +7,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup Base
 ARG BUILD_ARCH=amd64
-ARG DEHYDRATED_VERSION=0.7.1
+ARG DEHYDRATED_VERSION=0.7.2
 
 # hadolint ignore=DL3018
 RUN \
